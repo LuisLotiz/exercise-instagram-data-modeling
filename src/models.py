@@ -12,16 +12,24 @@ class User(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    user_id = Column(Integer, primary_key=True)
+    email = Column(String(250), nullable=False)
+    user_name = Column(String(250), nullable=False)
+    full_name = Column(String(250), nullable=False)
+    followers_count = Column(String(250), nullable=False)
+    following_count = Column(String(250), nullable=False)
+    
 
 class Post(Base):
     __tablename__ = 'post'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
+    post_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, nullable=False)
+    image_url = Column(String(250), nullable=False)
+    likes_count = Column(Integer, nullable=False)
+    coments_count = Column(Integer, nullable=False)
     person_id = Column(Integer, ForeignKey('user.id'))
     person = relationship(User)
 
@@ -30,31 +38,32 @@ class Comment(Base):
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('user.id'))
-    person = relationship(User)
+    comnemt_id = Column(String(250), primary_key=True)
+    post_id = Column(String(250), nullable=False)
+    user_id = Column(String(250), nullable=False)
+    person_id = Column(Integer, ForeignKey('post.id'))
+    person = relationship(Post)
 
 class Like(Base):
     __tablename__ = 'like'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('user.id'))
-    person = relationship(User)  
+    like_id = Column(String(250), primary_key=True)
+    post_id = Column(String(250), nullable=False)
+    comment_id = Column(String(250), nullable=False)
+    person_id = Column(Integer, ForeignKey('post.id'))
+    person = relationship(Post)  
+      
 
-class FollowersFollowin(Base):
-    __tablename__ = 'followersfollowin'
+class Follow(Base):
+    __tablename__ = 'follow'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
+    follow_id = Column(String(250), primary_key=True)
+    follower_id = Column(String(250), nullable=True)
+    following_id = Column(String(250), nullable=True)
     person_id = Column(Integer, ForeignKey('user.id'))
     person = relationship(User)      
     
